@@ -3,12 +3,14 @@ using gamificação.Models;
 ;
 var carrinho = new CarrinhoDeCompras();
 var estoque = new Estoque();
-Promocao promocaoCamisetas = new Promocao();
+
 
 //GerenciaEstoque gerenciaEstoque = new GerenciaEstoque();
 var pagamento = new Pagamento();
 int opcao = 0;
 int escolha;
+
+
 
 
 estoque.AdicionarProduto(new Bolsa()
@@ -78,10 +80,17 @@ estoque.AdicionarProduto(new Calca()
     Cor = CorRoupa.Azul
 });
 
-//promocaoCamisetas.TipoDesconto = TipoDesconto.Porcentagem;
-//promocaoCamisetas.ValorDesconto = 10;
-//promocaoCamisetas.Produtos = estoque.ListarProdutos(3).Where(p => p.Categoria == CategoriaProduto.Calca).ToList();
+Promocao promocaoCalcas = new Promocao();
+promocaoCalcas.ValorDesconto = 50;
+promocaoCalcas.TipoDesconto = TipoDesconto.Porcentagem;
+List<Produto> calcas = estoque.ListarProdutos(3);
+promocaoCalcas.Produtos = calcas;
 
+Console.WriteLine("chama o cont");
+carrinho.AplicarPromocao(promocaoCalcas);
+
+
+estoque.AdicionarPromocao(promocaoCalcas); // Adiciona a promoção aos produtos de estoque
 
 void addcarrinho(int tipo)
 {
@@ -91,10 +100,10 @@ void addcarrinho(int tipo)
         List<Produto> filtrados = estoque.ListarProdutos(tipo);
         foreach (var pro in filtrados)
         {
-            
-                Console.WriteLine($"{pro.Codigo} - {pro.Nome} ({pro.Preco:C2})");
-            
+            decimal valorTotalItem = pro.Preco - pro.Desconto;
+            Console.WriteLine($"{pro.Codigo} - {pro.Nome} ({pro.Preco:C2} - {pro.Desconto:C2} = {valorTotalItem:C2})");
         }
+
         estoque.ListarProdutos(tipo);
 
 
@@ -171,8 +180,10 @@ do
             carrinho.ListarProdutos();
             break;
         case 3:
-
-            pagamento.RealizarPagamento();
+            carrinho.AplicarPromocao(promocaoCalcas);
+            pagamento.RealizarPagamento(carrinho);
+            Console.WriteLine("Compra realizada com suseso!");
+            Console.WriteLine("Obrigado por utilizar o nosso sistema!");
             break;
         case 4:
             Console.WriteLine("Obrigado por utilizar o nosso sistema!");

@@ -52,6 +52,22 @@ namespace gamificação.Models
 
             return valorTotal;
         }
+        public void AplicarPromocao(Promocao promocao)
+        {
+            Console.WriteLine("contador = ");
+            foreach (var produto in Produtos)
+            {
+
+                Console.WriteLine("entrou");
+                if (promocao.Produtos.Contains(produto))
+                {
+                    Console.WriteLine("val desc="+promocao.ValorDesconto);
+                    produto.Desconto = promocao.ValorDesconto;
+                }
+            }
+        }
+
+
     }
 
 }

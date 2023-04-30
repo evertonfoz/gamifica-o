@@ -11,44 +11,25 @@ namespace gamificação.Models
     {
         public decimal ValorDesconto { get; set; }
         public TipoDesconto TipoDesconto { get; set; }
-        public List<Produto> Produtos { get; set; }
+        public List<Produto> Produtos { get; set; } = new List<Produto>();
 
-        public decimal CalcularDesconto()
+        public decimal CalcularDesconto(Produto produto)
         {
-            decimal totalDesconto = 0;
-
-            foreach (Produto produto in Produtos)
+            if (!Produtos.Contains(produto))
             {
-                if (produto.Categoria == CategoriaProduto.Acessorio)
-                {
-                    Acessorio acessorio = (Acessorio)produto;
-                    if (acessorio.Tamanho == TamanhoAcessorio.G)
-                    {
-                        if (TipoDesconto == TipoDesconto.Porcentagem)
-                        {
-                            totalDesconto += (produto.Preco * ValorDesconto / 100);
-                        }
-                        else if (TipoDesconto == TipoDesconto.ValorFixo)
-                        {
-                            totalDesconto += ValorDesconto;
-                        }
-                    }
-                }
-                else if (produto.Categoria == CategoriaProduto.Camiseta)
-                {
-                    if (TipoDesconto == TipoDesconto.Porcentagem)
-                    {
-                        totalDesconto += (produto.Preco * ValorDesconto / 100);
-                    }
-                    else if (TipoDesconto == TipoDesconto.ValorFixo)
-                    {
-                        totalDesconto += ValorDesconto;
-                    }
-                }
+                return 0;
             }
 
-            return totalDesconto;
+            if (TipoDesconto == TipoDesconto.Porcentagem)
+            {
+                return produto.Preco * ValorDesconto / 100;
+            }
+            else if (TipoDesconto == TipoDesconto.ValorFixo)
+            {
+                return ValorDesconto;
+            }
+
+            return 0;
         }
     }
-
 }

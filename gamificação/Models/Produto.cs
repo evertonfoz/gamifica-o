@@ -12,9 +12,13 @@ namespace gamificação.Models
         public int Tipo { get; set; }
         public string Nome { get; set; }
         public decimal Preco { get; set; }
-
+        public decimal Desconto { get; set; }
 
         public CategoriaProduto Categoria { get; set; }
+
+
+        public abstract decimal CalcularDesconto(Promocao promocao);
+
     }
 
 }

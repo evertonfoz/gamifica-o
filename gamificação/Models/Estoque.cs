@@ -8,11 +8,25 @@ namespace gamificação.Models
     public class Estoque
     {
         private List<Produto> _produtos;
-
+        private List<Promocao> promocoes;
         public Estoque()
         {
             _produtos = new List<Produto>();
+            promocoes = new List<Promocao>();
         }
+
+        public void AdicionarPromocao(Promocao promocao)
+        {
+            foreach (var produto in _produtos)
+            {
+                if (promocao.Produtos.Contains(produto))
+                {
+                    produto.Desconto = promocao.ValorDesconto;
+                }
+            }
+        }
+
+
 
         public void AdicionarProduto(Produto produto)
         {
@@ -54,11 +68,31 @@ namespace gamificação.Models
             var produto = produtosFiltrados.FirstOrDefault(p => p.Codigo == codigo);
             if (produto != null)
             {
+                Promocao promocao = promocoes.FirstOrDefault(pr => pr.Produtos.Contains(produto));
+                if (promocao != null)
+                {
+                    decimal desconto = 0;
+                    if (promocao.TipoDesconto == TipoDesconto.Porcentagem)
+                    {
+                        desconto = produto.Preco * (promocao.ValorDesconto / 100);
+                    }
+                    else if (promocao.TipoDesconto == TipoDesconto.ValorFixo)
+                    {
+                        desconto = promocao.ValorDesconto;
+                    }
+                    produto.Desconto = desconto;
+                }
+                else
+                {
+                    produto.Desconto = 0;
+                }
                 _produtos.Remove(produto);
                 return produto;
             }
             return null;
         }
+
+
 
 
     }

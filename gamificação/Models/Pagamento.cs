@@ -1,4 +1,5 @@
-﻿using System;
+﻿using gamificação.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,33 +13,45 @@ namespace gamificação.Models
         public string NomeCliente { get; set; }
         public string EnderecoEntrega { get; set; }
 
-        public void RealizarPagamento()
+        public void RealizarPagamento(CarrinhoDeCompras carrinho)
         {
-            GerarNotaFiscal();
+            CarrinhoDeCompras = carrinho;
+            GerarNotaFiscal(CarrinhoDeCompras);
         }
 
-        public void GerarNotaFiscal()
+        public void GerarNotaFiscal(CarrinhoDeCompras carrinho)
         {
             Console.WriteLine("Nota Fiscal");
             Console.WriteLine($"Nome do Cliente: {NomeCliente}");
             Console.WriteLine($"Endereço de Entrega: {EnderecoEntrega}");
 
-            foreach (Produto produto in CarrinhoDeCompras.Produtos)
+            decimal totalDescontosProduto = 0;
+            decimal precoAtualizado = 0;
+            foreach (var produto in carrinho.Produtos)
             {
-                Console.WriteLine($"Produto: {produto.Nome} - Preço: {produto.Preco}");
+                decimal descontoProduto = produto.Desconto;
+                totalDescontosProduto += descontoProduto;
+
+                precoAtualizado = produto.Preco - descontoProduto;
+                Console.WriteLine($"{produto.Codigo} - {produto.Nome} ({produto.Preco:C2} => {precoAtualizado:C2})");
             }
 
-            decimal totalDescontos = 0;
-            foreach (Promocao promocao in CarrinhoDeCompras.Promocoes)
-            {
-                totalDescontos += promocao.CalcularDesconto();
-            }
+            decimal totalCompra = carrinho.ObterValorTotal();
+            Console.WriteLine($"Total dos produtos: {totalCompra:C2}");
+            Console.WriteLine($"Total de descontos de produto: {totalDescontosProduto:C2}");
+            Console.WriteLine($"Total a pagar: {precoAtualizado:C2}");
 
-            decimal totalCompra = CarrinhoDeCompras.ObterValorTotal();
-            Console.WriteLine($"Total dos produtos: {totalCompra}");
-            Console.WriteLine($"Total de descontos: {totalDescontos}");
-            Console.WriteLine($"Total a pagar: {totalCompra - totalDescontos}");
+            if (!carrinho.Produtos.Any())
+            {
+                Console.WriteLine("O carrinho está vazio.");
+            }
         }
+
+
     }
 
+
+
 }
+
+
