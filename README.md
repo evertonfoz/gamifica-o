@@ -1,3 +1,8 @@
+Daniel Casanova                        a2420678  
+Fernando Stall Rechia                  a2428997
+Bruno Henrique Oliveira Garcia gouvea  a1744925
+Eduarda Bassani                        a2082969
+
 Gamificação
 Introdução
 Este código foi desenvolvido em C# e simula uma aplicação de compra de produtos. Através de uma interface simples em linha de comando, o usuário pode adicionar produtos ao carrinho de compras, visualizar o valor total da compra e efetuar o pagamento.
