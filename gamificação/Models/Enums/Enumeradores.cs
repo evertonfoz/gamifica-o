@@ -10,8 +10,6 @@ namespace gamificação.Models.Enums
     {
         Camiseta,
         Calca,
-        Sapato,
-        Bolsa,
         Acessorio
     }
 

@@ -92,6 +92,22 @@ namespace gamificação.Models
             return null;
         }
 
+        public List<Produto> ListarProdutosPorCategoria(string categoria)
+        {
+            List<Produto> produtosPorCategoria = new List<Produto>();
+            foreach (Produto produto in _produtos)
+            {
+                if (Enum.TryParse(categoria, out CategoriaProduto categoriaProduto) && produto.Categoria == categoriaProduto)
+                {
+                    produtosPorCategoria.Add(produto);
+                }
+
+
+
+
+            }
+            return produtosPorCategoria;
+        }
 
 
 

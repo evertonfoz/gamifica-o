@@ -26,20 +26,21 @@ namespace gamificação.Models
             Console.WriteLine($"Endereço de Entrega: {EnderecoEntrega}");
 
             decimal totalDescontosProduto = 0;
-            decimal precoAtualizado = 0;
+            decimal precoTotalAtualizado = 0;
             foreach (var produto in carrinho.Produtos)
             {
                 decimal descontoProduto = produto.Desconto;
                 totalDescontosProduto += descontoProduto;
 
-                precoAtualizado = produto.Preco - descontoProduto;
+                decimal precoAtualizado = produto.Preco - descontoProduto;
+                precoTotalAtualizado += precoAtualizado;
                 Console.WriteLine($"{produto.Codigo} - {produto.Nome} ({produto.Preco:C2} => {precoAtualizado:C2})");
             }
 
             decimal totalCompra = carrinho.ObterValorTotal();
             Console.WriteLine($"Total dos produtos: {totalCompra:C2}");
             Console.WriteLine($"Total de descontos de produto: {totalDescontosProduto:C2}");
-            Console.WriteLine($"Total a pagar: {precoAtualizado:C2}");
+            Console.WriteLine($"Total a pagar: {precoTotalAtualizado:C2}");
 
             if (!carrinho.Produtos.Any())
             {

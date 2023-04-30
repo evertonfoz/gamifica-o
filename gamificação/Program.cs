@@ -19,7 +19,7 @@ estoque.AdicionarProduto(new Bolsa()
     Tipo = 1,
     Nome = "Bolsa Feminina",
     Preco = 9112.90m,
-    Categoria = CategoriaProduto.Bolsa,
+    Categoria = CategoriaProduto.Acessorio,
     Cor = CorAcessorio.Preto,
     Tamanho = TamanhoAcessorio.G,
     Material = "Couro",
@@ -32,7 +32,7 @@ estoque.AdicionarProduto(new Sapato()
     Tipo = 2,
     Nome = "Sapato Social Masculino",
     Preco = 149.90m,
-    Categoria = CategoriaProduto.Sapato,
+    Categoria = CategoriaProduto.Acessorio,
     Cor = CorAcessorio.Preto,
     Tamanho = TamanhoAcessorio.G,
     TamanhoSapato = TamanhoSapato.Numero42,
@@ -43,7 +43,7 @@ estoque.AdicionarProduto(new Calca()
 {
     Codigo = 1,
     Tipo = 3,
-    Nome = "Calça Jeans Masculina",
+    Nome = "Calça Jeans unisex",
     Preco = 89.90m,
     Categoria = CategoriaProduto.Calca,
     Tamanho = TamanhoCalca.M,
@@ -53,7 +53,7 @@ estoque.AdicionarProduto(new Calca()
 {
     Codigo = 2,
     Tipo = 3,
-    Nome = "Calça Jeans Masculina",
+    Nome = "Calça Tactel unisex",
     Preco = 89.90m,
     Categoria = CategoriaProduto.Calca,
     Tamanho = TamanhoCalca.M,
@@ -63,7 +63,7 @@ estoque.AdicionarProduto(new Calca()
 {
     Codigo = 3,
     Tipo = 3,
-    Nome = "Calça Jeans Masculina",
+    Nome = "Calça Leg Feminina",
     Preco = 89.90m,
     Categoria = CategoriaProduto.Calca,
     Tamanho = TamanhoCalca.M,
@@ -79,6 +79,37 @@ estoque.AdicionarProduto(new Calca()
     Tamanho = TamanhoCalca.M,
     Cor = CorRoupa.Azul
 });
+estoque.AdicionarProduto(new Calca()
+{
+    Codigo = 1,
+    Tipo = 4,
+    Nome = "Camisa peruana",
+    Preco = 89.90m,
+    Categoria = CategoriaProduto.Calca,
+    Tamanho = TamanhoCalca.M,
+    Cor = CorRoupa.Azul
+});
+estoque.AdicionarProduto(new Calca()
+{
+    Codigo = 2,
+    Tipo = 4,
+    Nome = "Camisa lala",
+    Preco = 89.90m,
+    Categoria = CategoriaProduto.Calca,
+    Tamanho = TamanhoCalca.M,
+    Cor = CorRoupa.Azul
+});
+estoque.AdicionarProduto(new Calca()
+{
+    Codigo = 3,
+    Tipo = 4,
+    Nome = "Camisa polo",
+    Preco = 89.90m,
+    Categoria = CategoriaProduto.Calca,
+    Tamanho = TamanhoCalca.M,
+    Cor = CorRoupa.Azul
+});
+
 
 Promocao promocaoCalcas = new Promocao();
 promocaoCalcas.ValorDesconto = 50;
@@ -86,11 +117,22 @@ promocaoCalcas.TipoDesconto = TipoDesconto.Porcentagem;
 List<Produto> calcas = estoque.ListarProdutos(3);
 promocaoCalcas.Produtos = calcas;
 
-Console.WriteLine("chama o cont");
-carrinho.AplicarPromocao(promocaoCalcas);
+estoque.AdicionarPromocao(promocaoCalcas);
+
+Promocao promocaoAcessorios = new Promocao();
+promocaoAcessorios.ValorDesconto = 20;
+promocaoAcessorios.TipoDesconto = TipoDesconto.Porcentagem;
+List<Produto> produtosAcessorios2 = estoque.ListarProdutosPorCategoria("Acessorio");
+
+promocaoAcessorios.Produtos = produtosAcessorios2;
+estoque.AdicionarPromocao(promocaoAcessorios);
 
 
-estoque.AdicionarPromocao(promocaoCalcas); // Adiciona a promoção aos produtos de estoque
+
+
+
+
+
 
 void addcarrinho(int tipo)
 {
@@ -141,13 +183,14 @@ do
     switch (escolha)
     {
         case 1:
-            while (opcao != 4)
+            while (opcao != 5)
             {
                 Console.WriteLine("O que você deseja adicionar ao carrinho?");
                 Console.WriteLine("1 - Bolsa");
                 Console.WriteLine("2 - Sapato");
                 Console.WriteLine("3 - Calça");
-                Console.WriteLine("4 - Finalizar compra");
+                Console.WriteLine("4 - Camisetas");
+                Console.WriteLine("5 - Finalizar compra");
 
                 opcao = int.Parse(Console.ReadLine());
 
@@ -164,8 +207,10 @@ do
                         addcarrinho(3);
 
                         break;
-
                     case 4:
+                        addcarrinho(4);
+                        break;
+                    case 5:
                         break;
 
                     default:
@@ -180,10 +225,12 @@ do
             carrinho.ListarProdutos();
             break;
         case 3:
+            carrinho.AplicarPromocao(promocaoAcessorios);
             carrinho.AplicarPromocao(promocaoCalcas);
             pagamento.RealizarPagamento(carrinho);
             Console.WriteLine("Compra realizada com suseso!");
             Console.WriteLine("Obrigado por utilizar o nosso sistema!");
+            escolha = 4;
             break;
         case 4:
             Console.WriteLine("Obrigado por utilizar o nosso sistema!");
