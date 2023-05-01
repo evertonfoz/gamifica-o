@@ -25,4 +25,4 @@ Finalizar a compra
 Ao finalizar a seleção de produtos, o usuário poderá escolher a opção de finalizar a compra. Será exibido o valor total da compra e o usuário poderá escolher a forma de pagamento.
 
 Efetuar o pagamento
-Para efetuar o pagamento, o usuário deverá escolher a opção correspondente à forma de pagamento desejada (cartão de crédito, cartão de débito ou dinheiro). Será exibido um resumo da compra e a confirmação do pagamento.
+Será exibido um resumo da compra e a confirmação do pagamento.
